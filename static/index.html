@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EEARTH™ Board of Directors</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0f1729; color: #e2e8f0; margin: 0; }
+    .font-serif { font-family: 'Playfair Display', serif; }
+    .sidebar { background: #0a1021; border-right: 1px solid rgba(196,169,58,0.2); }
+    .gold { color: #c4a93a; }
+    .gold-bg { background: #c4a93a; }
+    .gold-border { border-color: #c4a93a; }
+    .card { background: #1a2744; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
+    .card-hover:hover { border-color: rgba(196,169,58,0.4); transform: translateY(-2px); transition: all 0.2s; }
+    .btn-primary { background: #c4a93a; color: #0a1021; font-weight: 600; border-radius: 8px; padding: 10px 20px; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary:hover { background: #d4b94a; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #e2e8f0; border-radius: 8px; padding: 10px 20px; cursor: pointer; transition: all 0.2s; }
+    .btn-ghost:hover { border-color: rgba(196,169,58,0.5); color: #c4a93a; }
+    .btn-danger { background: #7f1d1d; color: #fca5a5; border: 1px solid #991b1b; border-radius: 8px; padding: 8px 16px; cursor: pointer; transition: all 0.2s; }
+    .btn-danger:hover { background: #991b1b; }
+    .input { background: #0f1729; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #e2e8f0; padding: 10px 14px; width: 100%; outline: none; transition: border-color 0.2s; }
+    .input:focus { border-color: #c4a93a; }
+    .chat-user { background: #1e3a5f; border-radius: 12px 12px 4px 12px; }
+    .chat-member { background: #1a2744; border-radius: 12px 12px 12px 4px; border-left: 3px solid; }
+    .streaming-cursor::after { content: '▋'; animation: blink 1s infinite; color: #c4a93a; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .badge { border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+    .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(196,169,58,0.3); border-radius: 2px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; color: #94a3b8; font-size: 14px; }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: #e2e8f0; }
+    .nav-item.active { background: rgba(196,169,58,0.15); color: #c4a93a; }
+    .member-panel { border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: #131d35; overflow: hidden; }
+    .minutes-text { white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.7; }
+    .toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; cursor: pointer; top:0;left:0;right:0;bottom:0; background: #374151; border-radius: 22px; transition: .3s; }
+    .toggle-slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .3s; }
+    input:checked + .toggle-slider { background: #c4a93a; }
+    input:checked + .toggle-slider:before { transform: translateX(18px); }
+    .scene-card { cursor: pointer; background: #1a2744; border: 2px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 28px; transition: all 0.25s; }
+    .scene-card:hover { border-color: rgba(196,169,58,0.6); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+    .scene-card.selected { border-color: #c4a93a; background: rgba(196,169,58,0.08); }
+    .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .modal { background: #1a2744; border: 1px solid rgba(196,169,58,0.3); border-radius: 16px; padding: 32px; min-width: 440px; max-width: 600px; max-height: 80vh; overflow-y: auto; }
+    .tag { background: rgba(196,169,58,0.15); color: #c4a93a; border: 1px solid rgba(196,169,58,0.3); border-radius: 6px; padding: 3px 10px; font-size: 12px; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef, createContext, useContext } = React;
+
+// ─── Auth Context ───
+const AuthContext = createContext(null);
+const useAuth = () => useContext(AuthContext);
+
+// ─── API helper ───
+const API = {
+  async req(method, path, body, token) {
+    const opts = { method, headers: { 'Content-Type': 'application/json' } };
+    if (token) opts.headers['Authorization'] = `Bearer ${token}`;
+    if (body) opts.body = JSON.stringify(body);
+    const r = await fetch(path, opts);
+    if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.detail || `HTTP ${r.status}`); }
+    return r.json();
+  },
+  get: (p, t) => API.req('GET', p, null, t),
+  post: (p, b, t) => API.req('POST', p, b, t),
+  put: (p, b, t) => API.req('PUT', p, b, t),
+  patch: (p, b, t) => API.req('PATCH', p, b, t),
+  delete: (p, t) => API.req('DELETE', p, null, t),
+
+  async stream(path, body, token, onChunk) {
+    const r = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const reader = r.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop();
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          try { onChunk(JSON.parse(line.slice(6))); } catch {}
+        }
+      }
+    }
+  }
+};
+
+// ─── Toast / Notification ───
+const Toast = ({ msg, type = 'success', onDismiss }) => {
+  useEffect(() => { const t = setTimeout(onDismiss, 4000); return () => clearTimeout(t); }, []);
+  const bg = type === 'error' ? '#7f1d1d' : type === 'warning' ? '#78350f' : '#14532d';
+  const border = type === 'error' ? '#991b1b' : type === 'warning' ? '#92400e' : '#166534';
+  const color = type === 'error' ? '#fca5a5' : type === 'warning' ? '#fcd34d' : '#86efac';
+  return (
+    <div style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 9999, background: bg, border: `1px solid ${border}`, borderRadius: 10, padding: '12px 18px', color, fontSize: 14, maxWidth: 360, boxShadow: '0 8px 32px rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', gap: 10 }}>
+      <span>{type === 'error' ? '⚠️' : type === 'warning' ? '⚡' : '✅'}</span>
+      <span style={{ flex: 1 }}>{msg}</span>
+      <button onClick={onDismiss} style={{ background: 'none', border: 'none', color, cursor: 'pointer', fontSize: 18, padding: 0, lineHeight: 1 }}>×</button>
+    </div>
+  );
+};
+
+const useToast = () => {
+  const [toast, setToast] = useState(null);
+  const showToast = useCallback((msg, type = 'success') => setToast({ msg, type, id: Date.now() }), []);
+  const ToastEl = toast ? <Toast key={toast.id} msg={toast.msg} type={toast.type} onDismiss={() => setToast(null)} /> : null;
+  return { showToast, ToastEl };
+};
+
+// ─── Board member meta ───
+const MEMBER_DEFAULTS = {
+  elon_musk:    { name: 'Elon Musk',     avatar: '🚀', color: '#e74c3c' },
+  steve_jobs:   { name: 'Steve Jobs',    avatar: '🍎', color: '#8e44ad' },
+  bill_gates:   { name: 'Bill Gates',    avatar: '💻', color: '#2980b9' },
+  warren_buffett: { name: 'Warren Buffett', avatar: '📈', color: '#27ae60' },
+  amin_nasser:  { name: 'Amin Nasser',   avatar: '⚡', color: '#d35400' },
+};
+
+// ─── Utilities ───
+function fmtDate(ts) {
+  if (!ts) return '';
+  const d = new Date(ts * 1000);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+function fmtTime(ts) {
+  if (!ts) return '';
+  return new Date(ts * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+function meetingTypeLabel(t) {
+  return { '1on1': '1-on-1', 'document': 'Document Review', 'board': 'Board Meeting' }[t] || t;
+}
+function meetingTypeColor(t) {
+  return { '1on1': '#2980b9', 'document': '#8e44ad', 'board': '#c4a93a' }[t] || '#888';
+}
+
+// ─── Spinner ───
+const Spinner = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className="animate-spin" style={{ display: 'inline-block' }}>
+    <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.2)" strokeWidth="3" />
+    <path d="M12 2a10 10 0 0 1 10 10" stroke="#c4a93a" strokeWidth="3" strokeLinecap="round" />
+  </svg>
+);
+
+// ─── Memory Toggle ───
+const MemoryToggle = ({ value, onChange }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#94a3b8' }}>
+    <span>🧠 Memory</span>
+    <label className="toggle">
+      <input type="checkbox" checked={value} onChange={e => onChange(e.target.checked)} />
+      <span className="toggle-slider" />
+    </label>
+    <span style={{ color: value ? '#c4a93a' : '#4b5563' }}>{value ? 'ON' : 'OFF'}</span>
+  </div>
+);
+
+// ─── Member Avatar ───
+const MemberAvatar = ({ memberKey, members, size = 36 }) => {
+  const info = members?.find(m => m.key === memberKey) || MEMBER_DEFAULTS[memberKey] || {};
+  return (
+    <div style={{
+      width: size, height: size, borderRadius: '50%',
+      background: `${info.color || '#666'}22`,
+      border: `2px solid ${info.color || '#666'}`,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: size * 0.45, flexShrink: 0,
+    }}>
+      {info.avatar || '👤'}
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// LOGIN PAGE
+// ─────────────────────────────────────────────────────────────────
+const LoginPage = ({ onLogin }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setError(''); setLoading(true);
+    try {
+      const data = await API.post('/api/auth/login', { email, password });
+      localStorage.setItem('eearth_token', data.token);
+      localStorage.setItem('eearth_user', JSON.stringify(data.user));
+      onLogin(data.token, data.user);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0a1021 0%, #1a2744 100%)' }}>
+      <div style={{ width: 400 }}>
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <div className="font-serif gold" style={{ fontSize: 32, letterSpacing: '0.05em' }}>EEARTH™</div>
+          <div style={{ color: '#94a3b8', fontSize: 14, marginTop: 6 }}>Board of Directors Portal</div>
+        </div>
+        <div className="card" style={{ padding: 36 }}>
+          <h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 24, color: '#f1f5f9' }}>Sign In</h2>
+          {error && <div style={{ background: '#7f1d1d33', border: '1px solid #991b1b', borderRadius: 8, padding: '10px 14px', marginBottom: 16, color: '#fca5a5', fontSize: 14 }}>{error}</div>}
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ fontSize: 13, color: '#94a3b8', display: 'block', marginBottom: 6 }}>Email Address</label>
+              <input className="input" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@eearth.com" required />
+            </div>
+            <div style={{ marginBottom: 24 }}>
+              <label style={{ fontSize: 13, color: '#94a3b8', display: 'block', marginBottom: 6 }}>Password</label>
+              <input className="input" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required />
+            </div>
+            <button className="btn-primary" type="submit" disabled={loading} style={{ width: '100%' }}>
+              {loading ? <Spinner size={16} /> : 'Sign In'}
+            </button>
+          </form>
+        </div>
+        <div style={{ textAlign: 'center', marginTop: 20, fontSize: 12, color: '#4b5563' }}>
+          Confidential & Proprietary — EEARTH™ Exploration LLC
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// SIDEBAR
+// ─────────────────────────────────────────────────────────────────
+const Sidebar = ({ page, setPage, user, onLogout }) => {
+  const navItems = [
+    { id: 'dashboard', icon: '⚡', label: 'Dashboard' },
+    { id: 'new-meeting', icon: '＋', label: 'New Meeting' },
+    { id: 'history', icon: '📋', label: 'Meeting History' },
+    { id: 'memory', icon: '🧠', label: 'Board Memory' },
+    ...(user?.role === 'admin' ? [{ id: 'admin', icon: '⚙️', label: 'Admin Panel' }] : []),
+  ];
+
+  return (
+    <div className="sidebar" style={{ width: 220, display: 'flex', flexDirection: 'column', height: '100vh', position: 'fixed', left: 0, top: 0 }}>
+      {/* Logo */}
+      <div style={{ padding: '24px 20px 16px', borderBottom: '1px solid rgba(196,169,58,0.15)' }}>
+        <div className="font-serif gold" style={{ fontSize: 22, letterSpacing: '0.05em' }}>EEARTH™</div>
+        <div style={{ fontSize: 10, color: '#4b5563', marginTop: 2, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Board of Directors</div>
+      </div>
+
+      {/* Nav */}
+      <nav style=5{ padding: '12px 8px', flex: 1 }}>
+        {navItems.map(item => (
+          <div key={item.id} className={`nav-item ${page === item.id ? 'active' : ''}`} onClick={() => setPage(item.id)}>
+            <span style={{ fontSize: 16 }}>{item.icon}</span>
+            <span>{item.label}</span>
+          </div>
+        ))}
+      </nav>
+
+      {/* User info */}
+      <div style={{ padding: '16px 16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ fontSize: 13, fontWeight: 500, color: '#e2e8f0', marginBottom: 2 }}>{user?.name}</div>
+        <div style={{ fontSize: 11, color: '#4b5563', marginBottom: 12 }}>{user?.email}</div>
+        <button className="btn-ghost" onClick={onLogout} style={{ width: '100%', fontSize: 13, padding: '8px' }}>Sign Out</button>
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// DASHBOARD
+// ─────────────────────────────────────────────────────────────────
+const Dashboard = ({ setPage, setInitialMeetingId, members }) => {
+  const { token, user } = useAuth();
+  const [meetings, setMeetings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    API.get('/api/meetings', token).then(setMeetings).catch(console.error).finally(() => setLoading(false));
+  }, []);
+
+  const recent = meetings.slice(0, 5);
+
+  return (
+    <div style={{ maxWidth: 900 }}>
+      {/* Header */}
+      <div style={{ marginBottom: 32 }}>
+        <div className="font-serif" style={{ fontSize: 28, color: '#f1f5f9', marginBottom: 6 }}>
+          Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}, {user?.name?.split(' ')[0]}.
+        </div>
+        <div style={{ color: '#64748b', fontSize: 15 }}>Your EEARTH Board of Directors is ready. What would you like to discuss?</div>
+      </div>
+
+      {/* Scene cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, marginBottom: 40 }}>
+        {[
+          { id: '1on1', icon: '👤', title: '1-on-1 Meeting', desc: 'Private consultation with any individual board member on any topic.', color: '#2980b9' },
+          { id: 'document', icon: '📄', title: 'Document Review', desc: 'Submit a document for board member review, analysis, and recommendations.', color: '#8e44ad' },
+          { id: 'board', icon: '🏛️', title: 'Full Board Meeting', desc: 'Convene the full board. All five directors respond with formal minutes & resolutions.', color: '#c4a93a' },
+        ].map(scene => (
+          <div key={scene.id} className="scene-card" onClick={() => setPage('new-meeting')}>
+            <div style={{ fontSize: 32, marginBottom: 14 }}>{scene.icon}</div>
+            <div style={{ fontWeight: 600, marginBottom: 8, color: '#f1f5f9', fontSize: 15 }}>{scene.title}</div>
+            <div style={{ fontSize: 13, color: '#64748b', lineHeight: 1.5 }}>{scene.desc}</div>
+            <div style={{ marginTop: 16 }}>
+              <span style={{ fontSize: 12, color: scene.color, fontWeight: 600, background: `${scene.color}22`, padding: '4px 12px', borderRadius: 20 }}>Start →</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Board members */}
+      <div style={{ marginBottom: 32 }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: '#64748b', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Your Board</div>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          {members.map(m => (
+            <div key={m.key} className="card" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12, flex: '1 1 150px' }}>
+              <div style={{ fontSize: 24 }}>{m.avatar}</div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>{m.name}</div>
+                <div style={{ fontSize: 11, color: '#4b5563', marginTop: 1 }}>{m.specialty?.split('·')[0]}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Recent meetings */}
+      {recent.length > 0 && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Recent Meetings</div>
+            <button className="btn-ghost" style={{ padding: '6px 14px', fontSize: 12 }} onClick={() => setPage('history')}>View All</button>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {recent.map(m => (
+              <div key={m.id} className="card card-hover" style={{ padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 16, cursor: 'pointer' }}
+                onClick={() => { setInitialMeetingId(m.id); setPage('meeting'); }}>
+                <span style={{ fontSize: 20 }}>{ { '1on1': '👤', 'document': '📄', 'board': '🏛️' }[m.type] || '📋' }</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 500, color: '#e2e8f0' }}>{m.title}</div>
+                  <div style={{ fontSize: 12, color: '#4b5563', marginTop: 2 }}>{meetingTypeLabel(m.type)} · {m.message_count} messages</div>
+                </div>
+                <div style={{ fontSize: 12, color: '#4b5563' }}>{fmtDate(m.updated_at)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {loading && <div style={{ color: '#64748b', textAlign: 'center', padding: 20 }}><Spinner /></div>}
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// NEW MEETING
+// ─────────────────────────────────────────────────────────────────
+const NewMeeting = ({ setPage, setInitialMeetingId, members }) => {
+  const { token } = useAuth();
+  const [step, setStep] = useState(1);
+  const [scene, setScene] = useState(null);
+  const [title, setTitle] = useState('');
+  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [agenda, setAgenda] = useState(['']);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const SCENES = [
+    { id: '1on1', icon: '👤', title: '1-on-1 Meeting', desc: 'A private, confidential consultation with a single board member. Deep-dive on any topic.', color: '#2980b9', membersLabel: 'Select board member (one):', maxMembers: 1 },
+    { id: 'document', icon: '📄', title: 'Document Review', desc: 'Submit a document for structured review and strategic analysis by a selected board member.', color: '#8e44ad', membersLabel: 'Select reviewer (one):', maxMembers: 1 },
+    { id: 'board', icon: '🏛️', title: 'Full Board Meeting', desc: 'Convene the full board for formal discussion with minutes and resolutions.', color: '#c4a93a', membersLabel: 'Board members present (all by default):', maxMembers: 5 },
+  ];
+
+  const selectedScene = SCENES.find(s => s.id === scene);
+
+  const toggleMember = (key) => {
+    if (selectedScene?.maxMembers === 1) {
+      setSelectedMembers([key]);
+    } else {
+      setSelectedMembers(prev =>
+        prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]
+      );
+    }
+  };
+
+  const handleCreate = async () => {
+    if (!title.trim()) { setError('Please enter a meeting title.'); return; }
+    if (selectedScene?.maxMembers === 1 && selectedMembers.length !== 1) { setError('Please select exactly one board member.'); return; }
+    setLoading(true); setError('');
+    try {
+      const boardMembers = scene === 'board' && selectedMembers.length === 0 ? members.map(m => m.key) : selectedMembers;
+      const validAgenda = agenda.filter(a => a.trim());
+      const data = await API.post('/api/meetings', { type: scene, title, board_members: boardMembers, agenda: validAgenda }, token);
+      setInitialMeetingId(data.id);
+      setPage('meeting');
+    } catch (err) { setError(err.message); } finally { setLoading(false); }
+  };
+
+  if (step === 1) {
+    return (
+      <div style={{ maxWidth: 800 }}>
+        <div style={{ marginBottom: 28 }}>
+          <div className="font-serif" style={{ fontSize: 24, color: '#f1f5f9', marginBottom: 6 }}>New Meeting</div>
+          <div style={{ color: '#64748b', fontSize: 14 }}>Choose the type of board engagement.</div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
+          {SCENES.map(s => (
+            <div key={s.id} className={`scene-card ${scene === s.id ? 'selected' : ''}`} style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }} onClick={() => setScene(s.id)}>
+              <div style={{ fontSize: 36, marginTop: 2 }}>{s.icon}</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 600, fontSize: 17, color: '#f1f5f9', marginBottom: 6 }}>{s.title}</div>
+                <div style={{ fontSize: 13, color: '#64748b', lineHeight: 1.6 }}>{s.desc}</div>
+              </div>
+              <div style={{ width: 24, height: 24, borderRadius: '50%', border: `2px solid ${scene === s.id ? s.color : 'rgba(255,255,255,0.2)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 4 }}>
+                {scene === s.id && <div style={{ width: 12, height: 12, borderRadius: '50%', background: s.color }} />}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 24, display: 'flex', gap: 12 }}>
+          <button className="btn-primary" disabled={!scene} onClick={() => setStep(2)}>Continue →</button>
+          <button className="btn-ghost" onClick={() => setPage('dashboard')}>Cancel</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ maxWidth: 700 }}>
+      <div style={{ marginBottom: 28 }}>
+        <div className="font-serif" style={{ fontSize: 24, color: '#f1f5f9', marginBottom: 4 }}>Configure Meeting</div>
+        <div style={{ color: '#64748b', fontSize: 14 }}>{selectedScene?.title} · Fill in the details below.</div>
+      </div>
+
+      {error && <div style={{ background: '#7f1d1d33', border: '1px solid #991b1b', borderRadius: 8, padding: '10px 14px', marginBottom: 16, color: '#fca5a5', fontSize: 14 }}>{error}</div>}
+
+      {/* Title */}
+      <div style={{ marginBottom: 20 }}>
+        <label style={{ fontSize: 13, color: '#94a3b8', display: 'block', marginBottom: 6 }}>Meeting Title *</label>
+        <input className="input" value={title} onChange={e => setTitle(e.target.value)} placeholder={scene === '1on1' ? 'e.g., Seed Round Strategy Discussion' : scene === 'document' ? 'e.g., Review: Q1 2027 Business Plan' : 'e.g., Q2 2026 Board Meeting'} />
+      </div>
+
+      {/* Board members */}
+      <div style={{ marginBottom: 20 }}>
+        <label style={{ fontSize: 13, color: '#94a3b8', display: 'block', marginBottom: 10 }}>{selectedScene?.membersLabel}</label>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          {members.map(m => {
+            const sel = selectedMembers.includes(m.key) || (scene === 'board' && selectedMembers.length === 0);
+            return (
+              <div key={m.key} onClick={() => toggleMember(m.key)} style={{ cursor: 'pointer', padding: '12px 14px', borderRadius: 10, border: `2px solid ${sel ? m.color : 'rgba(255,255,255,0.1)'}`, background: sel ? `${m.color}15` : '#131d35', display: 'flex', alignItems: 'center', gap: 12, transition: 'all 0.2s' }}>
+                <span style={{ fontSize: 22 }}>{m.avatar}</span>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>{m.name}</div>
+                  <div style={{ fontSize: 11, color: '#4b5563' }}>{m.specialty?.split('·')[0]?.trim()}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {scene === 'board' && selectedMembers.length === 0 && <div style={{ fontSize: 12, color: '#c4a93a', marginTop: 8 }}>All five board members will be convened (default).</div>}
+      </div>
+
+      {/* Agenda (board meetings only) */}
+      {scene === 'board' && (
+        <div style={{ marginBottom: 20 }}>
+          <label style={{ fontSize: 13, color: '#94a3b8', display: 'block', marginBottom: 6 }}>Agenda Items (optional — you can add during the meeting)</label>
+          {agenda.map((item, idx) => (
+            <div key={idx} style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+              <input className="input" value={item} onChange={e => { const a = [...agenda]; a[idx] = e.target.value; setAgenda(a); }} placeholder={`Agenda item ${idx + 1}`} />
+              {agenda.length > 1 && <button className="btn-ghost" style={{ padding: '8px 12px', fontSize: 18 }} onClick={() => setAgenda(agenda.filter((_, i) => i !== idx))}>×</button>}
+            </div>
+          ))}
+          <button className="btn-ghost" style={{ fontSize: 13, padding: '8px 14px' }} onClick={() => setAgenda([...agenda, ''])}>+ Add item</button>
+        </div>
+      )}
+
+      <div style={{ display: 'flex', gap: 12 }}>
+        <button className="btn-primary" disabled={loading} onClick={handleCreate}>{loading ? <Spinner size={16} /> : 'Start Meeting →'}</button>
+        <button className="btn-ghost" onClick={() => setStep(1)}>← Back</button>
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// CHAT MESSAGE
+// ─────────────────────────────────────────────────────────────────
+const ChatMessage = ({ msg, members }) => {
+  const isUser = msg.role === 'user';
+  const memberInfo = !isUser ? (members?.find(m => m.key === msg.board_member) || MEMBER_DEFAULTS[msg.board_member] || {}) : {};
+
+  if (isUser) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+        <div className="chat-user" style={{ maxWidth: '72%', padding: '12px 16px', fontSize: 14, lineHeight: 1.6, color: '#e2e8f0' }}>
+          {msg.content}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+      <MemberAvatar memberKey={msg.board_member} members={members} size={36} />
+      <div style={{ flex: 1 }}>
+        <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6, color: memberInfo.color || '#888' }}>{memberInfo.name || 'Board Member'}</div>
+        <div className="chat-member" style={{ borderLeftColor: memberInfo.color || '#888', padding: '12px 16px', fontSize: 14, lineHeight: 1.7, color: '#cbd5e1', whiteSpace: 'pre-wrap' }}>
+          {msg.content}
+          {msg.streaming && <span className="streaming-cursor" />}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// CHAT INPUT BAR
+// ─────────────────────────────────────────────────────────────────
+const ChatInput = ({ onSend, disabled, useMemory, onMemoryToggle, placeholder = 'Type your message...' }) => {
+  const [text, setText] = useState('');
+  const textareaRef = useRef(null);
+
+  const send = () => {
+    if (!text.trim() || disabled) return;
+    onSend(text.trim());
+    setText('');
+  };
+
+  const handleKey = e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  };
+
+  return (
+    <div style={{ background: '#131d35', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '12px 16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <MemoryToggle value={useMemory} onChange={onMemoryToggle} />
+        {disabled && <div style={{ fontSize: 12, color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}><Spinner size={14} /> Thinking...</div>}
+      </div>
+      <div style={{ display: 'flex', gap: 10 }}>
+        <textarea
+          ref={textareaRef}
+          className="input"
+          value={text}
+          onChange={e => setText(e.target.value)}
+          onKeyDown={handleKey}
+          placeholder={placeholder}
+          rows={2}
+          style={{ resize: 'none', lineHeight: 1.5 }}
+          disabled={disabled}
+        />
+        <button className="btn-primary" onClick={send} disabled={disabled || !text.trim()} style={{ padding: '10px 20px', alignSelf: 'flex-end' }}>Send</button>
+      </div>
+      <div style={{ fontSize: 11, color: '#374151', marginTop: 6 }}>Enter to send · Shift+Enter for new line</div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// 1-ON-1 SESSION VIEW
+// ─────────────────────────────────────────────────────────────────
+const OneOnOneSession = ({ meeting, onMessagesUpdate, members }) => {
+  const { token } = useAuth();
+  const [messages, setMessages] = useState(meeting.messages || []);
+  const [streaming, setStreaming] = useState(false);
+  const [useMemory, setUseMemory] = useState(true);
+  const chatEndRef = useRef(null);
+  const memberKey = meeting.board_members?.[0];
+  const memberInfo = members?.find(m => m.key === memberKey) || MEMBER_DEFAULTS[memberKey] || {};
+
+  useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
+
+  const sendMessage = async (text) => {
+    setStreaming(true);
+    const userMsg = { role: 'user', content: text, created_at: Date.now() / 1000 };
+    const streamMsg = { role: 'assistant', board_member: memberKey, content: '', streaming: true, created_at: Date.now() / 1000 };
+    setMessages(prev => [...prev, userMsg, streamMsg]);
+
+    try {
+      await API.stream(
+        `/api/meetings/${meeting.id}/chat`,
+        { board_member: memberKey, message: text, use_memory: useMemory },
+        token,
+        chunk => {
+          if (chunk.text) setMessages(prev => { const n=[...prev]; n[n.length-1]={...n[n.length-1], content: n[n.length-1].content + chunk.text}; return n; });
+          if (chunk.done) setMessages(prev => { const n=[...prev]; n[n.length-1]={...n[n.length-1], streaming: false}; return n; });
+        }
+      );
+    } catch (err) {
+      setMessages(prev => { const n=[...prev]; n[n.length-1]={...n[n.length-1], content: `Error: ${err.message}`, streaming: false}; return n; });
+    } finally { setStreaming(false); }
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      {/* Header */}
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: 14 }}>
+        <MemberAvatar memberKey={memberKey} members={members} size={44} />
+        <div>
+          <div style={{ fontWeight: 600, fontSize: 16, color: '#f1f5f9' }}>{memberInfo.name || 'Board Member'}</div>
+          <div style={{ fontSize: 12, color: '#4b5563' }}>{memberInfo.specialty?.split('·')[0]?.trim()} · 1-on-1 Meeting</div>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div className="scrollbar-thin" style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+        {messages.length === 0 && (
+          <div style={{ textAlign: 'center', padding: '40px 20px', color: '#4b5563' }}>
+            <div style={{ fontSize: 40, marginBottom: 16 }}>{memberInfo.avatar || '👤'}</div>
+            <div style={{ fontSize: 15, fontWeight: 500, color: '#94a3b8', marginBottom: 8 }}>Meeting with {memberInfo.name}</div>
+            <div style={{ fontSize: 13 }}>Start the conversation — ask anything about EEARTH's strategy, fundraising, technology, or any topic you'd like their perspective on.</div>
+          </div>
+        )}
+        {messages.map((msg, i) => <ChatMessage key={i} msg={msg} members={members} />)}
+        <div ref={chatEndRef} />
+      </div>
+
+      <ChatInput onSend={sendMessage} disabled={streaming} useMemory={useMemory} onMemoryToggle={setUseMemory} placeholder={`Ask ${memberInfo.name || 'the board member'} anything...`} />
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// DOCUMENT REVIEW SESSION
+// ─────────────────────────────────────────────────────────────────
+const DocumentReviewSession = ({ meeting, onMessagesUpdate, members }) => {
+  const { token } = useAuth();
+  const [messages, setMessages] = useState(meeting.messages || []);
+  const [streaming, setStreaming] = useState(false);
+  const [useMemory, setUseMemory] = useState(true);
+  const [docUploaded, setDocUploaded] = useState(meeting.documents?.length > 0);
+  const [docFilename, setDocFilename] = useState(meeting.documents?.[0]?.filename || '');
+  const [uploading, setUploading] = useState(false);
+  const [uploadErr, setUploadErr] = useState('');
+  const [pasteMode, setPasteMode] = useState(false);
+  const [pasteText, setPasteText] = useState('');
+  const fileRef = useRef(null);
+  const chatEndRef = useRef(null);
+  const selectedMembers = meeting.board_members || [];
+
+  useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
+
+  const uploadFile = async (file) => {
+    setUploading(true); setUploadErr('');
+    const fd = new FormData();
+    fd.append('file', file);
+    const r = await fetch(`/api/meetings/${meeting.id}/document`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }, body: fd });
+    const data = await r.json();
+    if (!r.ok) { setUploadErr(data.detail || 'Upload failed'); setUploading(false); return; }
+    setDocUploaded(true); setDocFilename(file.name); setUploading(false);
+  };
+
+  const uploadText = async () => {
+    if (!pasteText.trim()) return;
+    setUploading(true); setUploadErr('');
+    const fd = new FormData();
+    fd.append('text', pasteText);
+    const r = await fetch(`/api/meetings/${meeting.id}/document`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }, body: fd });
+    if (!r.ok) { const d = await r.json(); setUploadErr(d.detail || 'Upload failed'); setUploading(false); return; }
+    setDocUploaded(true); setDocFilename('Pasted Text'); setUploading(false); setPasteMode(false);
+  };
+
+  const sendMessage = async (text) => {
+    if (!docUploaded) return;
+    setStreaming(true);
+    const memberKey = selectedMembers[0];
+    const userMsg = { role: 'user', content: text, created_at: Date.now() / 1000 };
+    const streamMsg = { role: 'assistant', board_member: memberKey, content: '', streaming: true, created_at: Date.now() / 1000 };
+    setMessages(prev => [...prev, userMsg, streamMsg]);
+
+    try {
+      await API.stream(
+        `/api/meetings/${meeting.id}/chat`,
+        { board_member: memberKey, message: text, use_memory: useMemory },
+        token,
+        chunk => {
+          if (chunk.text) setMessages(prev => { const n=[...prev]; n[n.length-1]={...n[n.length-1], content: n[n.length-1].content + chunk.text}; return n; });
+          if (chunk.done) setMessages(prev => { const n=[...prev]; n[n.length-1]={...n[n.length-1], streaming: false}; return n; });
+        }
+      );
+    } catch (err) {
+      setMessages(prev => { const n=[...prev]; n[n.length-1]={...n[n.length-1], content: `Error: ${err.message}`, streaming: false}; return n; });
+    } finally { setStreaming(false); }
+  };
+
+  const memberKey = selectedMembers[0];
+  const memberInfo = members?.find(m => m.key === memberKey) || MEMBER_DEFAULTS[memberKey] || {};
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      {/* Header */}
+      <div style={{ padding: '14px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: 14 }}>
+        <span style={{ fontSize: 24 }}>📄</span>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontWeight: 600, fontSize: 15, color: '#f1f5f9' }}>{meeting.title}</div>
+          <div style={{ fontSize: 12, color: '#4b5563' }}>Document Review · Reviewer: {memberInfo.name}</div>
+        </div>
+        {docUploaded && <span className="tag">📎 {docFilename}</span>}
+      </div>
+
+      {/* Document upload (if not yet done) */}
+      {!docUploaded && (
+        <div style={{ padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <div style={{ fontSize: 14, fontWeight: 500, color: '#e2e8f0', marginBottom: 12 }}>Upload Document for Review</div>
+          {uploadErr && <div style={{ background: '#7f1d1d33', border: '1px solid #991b1b', borderRadius: 8, padding: '8px 12px', marginBottom: 12, color: '#fca5a5', fontSize: 13 }}>{uploadErr}</div>}
+          {pasteMode ? (
+            <div>
+              <textarea className="input" value={pasteText} onChange={e => setPasteText(e.target.value)} rows={6} placeholder="Paste your document text here..." style={{ marginBottom: 10, resize: 'vertical' }} />
+              <div style={{ display: 'flex', gap: 10 }}>
+                <button className="btn-primary" onClick={uploadText} disabled={uploading || !pasteText.trim()}>{uploading ? <Spinner size={14} /> : 'Submit Text'}</button>
+                <button className="btn-ghost" onClick={() => setPasteMode(false)}>Cancel</button>
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: 12 }}>
+              <button className="btn-primary" onClick={() => fileRef.current?.click()} disabled={uploading}>
+                {uploading ? <Spinner size={14} /> : '📎 Upload File (PDF, DOCX, TXT)'}
+              </button>
+              <button className="btn-ghost" onClick={() => setPasteMode(true)}>📋 Paste Text</button>
+              <input ref={fileRef} type="file" accept=".pdf,.docx,.txt" style={{ display: 'none' }} onChange={e => e.target.files?.[0] && uploadFile(e.target.files[0])} />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Auto-prompt after upload */}
+      {docUploaded && messages.length === 0 && (
+        <div style={{ padding: '16px 20px', background: 'rgba(196,169,58,0.06)', borderBottom: '1px solid rgba(196,169,58,0.15)' }}>
+          <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 10 }}>Document uploaded. Ask {memberInfo.name} to review it, or start with:</div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {['Please provide your strategic assessment of this document.', 'What are the key risks you see?', 'What are your recommendations?'].map(q => (
+              <button key={q} className="btn-ghost" style={{ fontSize: 12, padding: '6px 12px' }} onClick={() => sendMessage(q)} disabled={streaming}>{q}</button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Messages */}
+      <div className="scrollbar-thin" style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+        {messages.map((msg, i) => <ChatMessage key={i} msg={msg} members={members} />)}
+        <div ref={chatEndRef} />
+      </div>
+
+      {docUploaded && <ChatInput onSend={sendMessage} disabled={streaming || !docUploaded} useMemory={useMemory} onMemoryToggle={setUseMemory} placeholder={`Ask ${memberInfo.name} about the document...`} />}
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// BOARD MEETING SESSION
+// ─────────────────────────────────────────────────────────────────
+const BoardMeetingSession = ({ meeting, onMessagesUpdate, members }) => {
+  const { token } = useAuth();
+  const { showToast, ToastEl } = useToast();
+  const [messages, setMessages] = useState(meeting.messages || []);
+  const [memberResponses, setMemberResponses] = useState({}); // {memberKey: content} for current streaming round
+  const [currentStreamingMember, setCurrentStreamingMember] = useState(null);
+  const [streaming, setStreaming] = useState(false);
+  const [useMemory, setUseMemory] = useState(true);
+  const [input, setInput] = useState('');
+  const [lastSentInput, setLastSentInput] = useState('');
+  const [minutes, setMinutes] = useState(meeting.minutes || null);
+  const [generatingMinutes, setGeneratingMinutes] = useState(false);
+  const [showMinutes, setShowMinutes] = useState(false);
+  const [updatingMemory, setUpdatingMemory] = useState(false);
+  const [docUploaded, setDocUploaded] = useState(meeting.documents?.length > 0);
+  const [uploading, setUploading] = useState(false);
+  const [pasteMode, setPasteMode] = useState(false);
+  const [pasteText, setPasteText] = useState('');
+  const fileRef = useRef(null);
+  const chatEndRef = useRef(null);
+  const activeMemberKeys = meeting.board_members?.length > 0 ? meeting.board_members : members.map(m => m.key);
+
+  useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, memberResponses]);
+
+  // Group messages by "round" (user message + all member responses)
+  const rounds = [];
+  let currentRound = null;
+  for (const msg of messages) {
+    if (msg.role === 'user') {
+      if (currentRound) rounds.push(currentRound);
+      currentRound = { question: msg, responses: [] };
+    } else if (currentRound && msg.role === 'assistant') {
+      currentRound.responses.push(msg);
+    }
+  }
+  if (currentRound) rounds.push(currentRound);
+
+  const uploadFile = async (file) => {
+    setUploading(true);
+    const fd = new FormData();
+    fd.append('file', file);
+    await fetch(`/api/meetings/${meeting.id}/document`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }, body: fd });
+    setDocUploaded(true); setUploading(false);
+  };
+
+  const uploadText = async () => {
+    if (!pasteText.trim()) return;
+    setUploading(true);
+    const fd = new FormData();
+    fd.append('text', pasteText);
+    await fetch(`/api/meetings/${meeting.id}/document`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }, body: fd });
+    setDocUploaded(true); setUploading(false); setPasteMode(false);
+  };
+
+  const sendToBoard = async (text) => {
+    if (!text.trim() || streaming) return;
+    setStreaming(true);
+    setLastSentInput(text);
+    setMemberResponses({});
+    setCurrentStreamingMember(null);
+
+    const userMsg = { role: 'user', content: text, created_at: Date.now() / 1000 };
+    setMessages(prev => [...prev, userMsg]);
+
+    const newResponses = {};
+
+    try {
+      await API.stream(
+        `/api/meetings/${meeting.id}/board-respond`,
+        { agenda_item: text, use_memory: useMemory, allow_cross_reference: true },
+        token,
+        chunk => {
+          if (chunk.member_start) {
+            setCurrentStreamingMember(chunk.member_start);
+            newResponses[chunk.member_start] = '';
+            setMemberResponses({ ...newResponses });
+          }
+          if (chunk.text && chunk.member) {
+            newResponses[chunk.member] = (newResponses[chunk.member] || '') + chunk.text;
+            setMemberResponses({ ...newResponses });
+          }
+          if (chunk.member_done) {
+            setCurrentStreamingMember(null);
+          }
+          if (chunk.all_done) {
+            // Commit streaming responses to messages
+            const now = Date.now() / 1000;
+            const newMsgs = Object.entries(newResponses).map(([memberKey, content]) => ({
+              role: 'assistant', board_member: memberKey, content, created_at: now
+            }));
+            setMessages(prev => [...prev, ...newMsgs]);
+            setMemberResponses({});
+          }
+        }
+      );
+    } catch (err) {
+      console.error('Board stream error:', err);
+    } finally {
+      setStreaming(false);
+      setCurrentStreamingMember(null);
+    }
+  };
+
+  const generateMinutes = async () => {
+    setGeneratingMinutes(true);
+    try {
+      const data = await API.post(`/api/meetings/${meeting.id}/minutes`, {}, token);
+      setMinutes(data.minutes);
+      setShowMinutes(true);
+      showToast('Minutes generated successfully.');
+    } catch (err) {
+      showToast('Error generating minutes: ' + err.message, 'error');
+    } finally { setGeneratingMinutes(false); }
+  };
+
+  const updateMemory = async () => {
+    setUpdatingMemory(true);
+    try {
+      await API.post(`/api/meetings/${meeting.id}/update-memory`, {}, token);
+      showToast('Board member memories updated from this meeting.');
+    } catch (err) {
+      showToast('Error updating memory: ' + err.message, 'error');
+    } finally { setUpdatingMemory(false); }
+  };
+
+  const copyMinutes = () => {
+    navigator.clipboard.writeText(minutes).then(() => showToast('Minutes copied to clipboard.')).catch(() => showToast('Copy failed — please select and copy manually.', 'warning'));
+  };
+
+  const downloadMinutes = () => {
+    const blob = new Blob([minutes], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `${meeting.title.replace(/[^a-z0-9]/gi, '_')}_minutes.txt`;
+    a.click(); URL.revokeObjectURL(url);
+  };
+
+  if (showMinutes && minutes) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        {ToastEl}
+        <div style={{ padding: '14px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <button className="btn-ghost" style={{ padding: '6px 14px', fontSize: 13 }} onClick={() => setShowMinutes(false)}>← Back to Meeting</button>
+          <div style={{ flex: 1, fontWeight: 600, color: '#f1f5f9' }}>Official Meeting Minutes</div>
+          <button className="btn-ghost" style={{ padding: '8px 16px', fontSize: 13 }} onClick={downloadMinutes}>⬇ Download</button>
+          <button className="btn-primary" style={{ padding: '8px 16px', fontSize: 13 }} onClick={copyMinutes}>📋 Copy</button>
+        </div>
+        <div className="scrollbar-thin" style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
+          <div className="card" style={{ padding: '32px' }}>
+            <div className="minutes-text" style={{ color: '#cbd5e1' }}>{minutes}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      {ToastEl}
+      {/* Header */}
+      <div style={{ padding: '12px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 20 }}>🏛️</span>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontWeight: 600, fontSize: 15, color: '#f1f5f9' }}>{meeting.title}</div>
+          <div style={{ fontSize: 12, color: '#4b5563' }}>Full Board Meeting · {activeMemberKeys.length} directors</div>
+        </div>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {minutes && <button className="btn-ghost" style={{ fontSize: 12, padding: '6px 12px' }} onClick={() => setShowMinutes(true)}>📄 View Minutes</button>}
+          <button className="btn-ghost" style={{ fontSize: 12, padding: '6px 12px' }} onClick={generateMinutes} disabled={generatingMinutes || messages.length < 2}>
+            {generatingMinutes ? <Spinner size={12} /> : '📋 Generate Minutes'}
+          </button>
+          <button className="btn-ghost" style={{ fontSize: 12, padding: '6px 12px' }} onClick={updateMemory} disabled={updatingMemory || messages.length < 2}>
+            {updatingMemory ? <Spinner size={12} /> : '🧠 Update Memory'}
+          </button>
+        </div>
+      </div>
+
+      {/* Board member presence bar */}
+      <div style={{ padding: '10px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: 12, alignItems: 'center', background: '#0d1728' }}>
+        <span style={{ fontSize: 11, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.1em', flexShrink: 0 }}>Directors</span>
+        {activeMemberKeys.map(key => {
+          const info = members?.find(m => m.key === key) || MEMBER_DEFAULTS[key] || {};
+          const isActive = currentStreamingMember === key;
+          return (
+            <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 6, opacity: isActive ? 1 : 0.7, transition: 'opacity 0.3s' }}>
+              <div style={{ width: 28, height: 28, borderRadius: '50%', background: `${info.color || '#666'}22`, border: `2px solid ${isActive ? info.color : info.color + '66'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, transition: 'all 0.3s' }}>
+                {info.avatar || '👤'}
+              </div>
+              {isActive && <div style={{ fontSize: 11, color: info.color }}>speaking...</div>}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Document upload for board meetings */}
+      {!docUploaded && (
+        <div style={{ padding: '12px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(196,169,58,0.04)' }}>
+          <div style={{ fontSize: 13, color: '#64748b', marginBottom: 8 }}>Optional: Attach a document for the board to review during this meeting.</div>
+          {pasteMode ? (
+            <div style={{ display: 'flex', gap: 8 }}>
+              <textarea className="input" value={pasteText} onChange={e => setPasteText(e.target.value)} rows={2} placeholder="Paste document text..." style={{ resize: 'none' }} />
+              <button className="btn-primary" onClick={uploadText} disabled={uploading || !pasteText.trim()} style={{ padding: '8px 14px', fontSize: 13 }}>{uploading ? <Spinner size={12} /> : 'Submit'}</button>
+              <button className="btn-ghost" onClick={() => setPasteMode(false)} style={{ padding: '8px 12px', fontSize: 13 }}>Cancel</button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button className="btn-ghost" style={{ fontSize: 12, padding: '6px 12px' }} onClick={() => fileRef.current?.click()} disabled={uploading}>📎 Attach Document</button>
+              <button className="btn-ghost" style={{ fontSize: 12, padding: '6px 12px' }} onClick={() => setPasteMode(true)}>📋 Paste Text</button>
+              <input ref={fileRef} type="file" accept=".pdf,.docx,.txt" style={{ display: 'none' }} onChange={e => e.target.files?.[0] && uploadFile(e.target.files[0])} />
+            </div>
+          )}
+        </div>
+      )}
+      {docUploaded && <div style={{ padding: '8px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(196,169,58,0.04)', fontSize: 12, color: '#c4a93a' }}>📎 Document attached for board review</div>}
+
+      {/* Rounds / Discussion */}
+      <div className="scrollbar-thin" style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+        {rounds.length === 0 && !streaming && (
+          <div style={{ textAlign: 'center', padding: '40px 20px', color: '#4b5563' }}>
+            <div style={{ fontSize: 40, marginBottom: 16 }}>🏛️</div>
+            <div style={{ fontSize: 15, fontWeight: 500, color: '#94a3b8', marginBottom: 8 }}>Board is in session.</div>
+            <div style={{ fontSize: 13, maxWidth: 420, margin: '0 auto', lineHeight: 1.6 }}>Present an agenda item below. All five directors will respond with their perspectives. Then generate official minutes and resolutions when you're ready.</div>
+            {meeting.agenda?.filter(a => a.trim()).length > 0 && (
+              <div style={{ marginTop: 20 }}>
+                <div style={{ fontSize: 12, color: '#64748b', marginBottom: 10 }}>Planned Agenda:</div>
+                {meeting.agenda.filter(a => a.trim()).map((item, i) => (
+                  <button key={i} className="btn-ghost" style={{ fontSize: 13, margin: '4px', display: 'inline-block' }} onClick={() => sendToBoard(item)} disabled={streaming}>
+                    {i+1}. {item}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Existing rounds */}
+        {rounds.map((round, ri) => (
+          <div key={ri} style={{ marginBottom: 32 }}>
+            {/* User question */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+              <div className="chat-user" style={{ maxWidth: '70%', padding: '12px 16px', fontSize: 14, lineHeight: 1.6, color: '#e2e8f0' }}>
+                {round.question.content}
+              </div>
+            </div>
+            {/* Member responses grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
+              {round.responses.map((resp, ri2) => {
+                const info = members?.find(m => m.key === resp.board_member) || MEMBER_DEFAULTS[resp.board_member] || {};
+                return (
+                  <div key={ri2} className="member-panel" style={{ borderTop: `3px solid ${info.color || '#666'}` }}>
+                    <div style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                      <span style={{ fontSize: 18 }}>{info.avatar}</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: info.color }}>{info.name}</span>
+                    </div>
+                    <div style={{ padding: '12px 14px', fontSize: 13, lineHeight: 1.7, color: '#cbd5e1', whiteSpace: 'pre-wrap', maxHeight: 320, overflowY: 'auto' }}>
+                      {resp.content}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+
+        {/* Currently streaming */}
+        {streaming && Object.keys(memberResponses).length > 0 && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+              <div className="chat-user" style={{ maxWidth: '70%', padding: '12px 16px', fontSize: 14, lineHeight: 1.6, color: '#e2e8f0', opacity: 0.7 }}>
+                {lastSentInput || 'Processing...'}
+              </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
+              {activeMemberKeys.map(key => {
+                const info = members?.find(m => m.key === key) || MEMBER_DEFAULTS[key] || {};
+                const content = memberResponses[key];
+                const isActive = currentStreamingMember === key;
+                return (
+                  <div key={key} className="member-panel" style={{ borderTop: `3px solid ${info.color || '#666'}`, opacity: content !== undefined ? 1 : 0.3 }}>
+                    <div style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                      <span style={{ fontSize: 18 }}>{info.avatar}</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: info.color }}>{info.name}</span>
+                      {isActive && <span className="streaming-cursor" style={{ marginLeft: 'auto' }} />}
+                    </div>
+                    <div style={{ padding: '12px 14px', fontSize: 13, lineHeight: 1.7, color: '#cbd5e1', whiteSpace: 'pre-wrap', minHeight: 60, maxHeight: 320, overflowY: 'auto' }}>
+                      {content !== undefined ? content : (isActive ? '' : <span style={{ color: '#374151' }}>Waiting...</span>)}
+                      {isActive && content !== undefined && <span className="streaming-cursor" />}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        <div ref={chatEndRef} />
+      </div>
+
+      {/* Input */}
+      <div style={{ background: '#131d35', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '12px 16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+          <MemoryToggle value={useMemory} onChange={setUseMemory} />
+          {streaming && <div style={{ fontSize: 12, color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}><Spinner size={14} /> Board responding...</div>}
+        </div>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <textarea className="input" value={input} onChange={e => setInput(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (input.trim() && !streaming) { sendToBoard(input); setInput(''); } } }}
+            placeholder="Present an agenda item to the full board..." rows={2} style={{ resize: 'none', lineHeight: 1.5 }} disabled={streaming} />
+          <button className="btn-primary" onClick={() => { if (input.trim()) { sendToBoard(input); setInput(''); } }} disabled={streaming || !input.trim()} style={{ padding: '10px 20px', alignSelf: 'flex-end' }}>Present</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// MEETING VIEW (loads and routes to correct session type)
+// ─────────────────────────────────────────────────────────────────
+const MeetingView = ({ meetingId, setPage, members }) => {
+  const { token } = useAuth();
+  const [meeting, setMeeting] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!meetingId) return;
+    API.get(`/api/meetings/${meetingId}`, token)
+      .then(setMeeting)
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [meetingId]);
+
+  if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#64748b' }}><Spinner size={32} /></div>;
+  if (error) return <div style={{ padding: 32, color: '#fca5a5' }}>Error: {error}</div>;
+  if (!meeting) return null;
+
+  const props = { meeting, members, onMessagesUpdate: () => {} };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div style={{ padding: '10px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 10 }}>
+        <button className="btn-ghost" style={{ padding: '6px 12px', fontSize: 12 }} onClick={() => setPage('history')}>← Back</button>
+        <span style={{ fontSize: 13, color: '#64748b' }}>{meetingTypeLabel(meeting.type)} · {fmtDate(meeting.created_at)}</span>
+      </div>
+      <div style={{ flex: 1, minHeight: 0 }}>
+        { meeting.type === '1on1' && <OneOnOneSession {...props} /> }
+        { meeting.type === 'document' && <DocumentReviewSession {...props} /> }
+        { meeting.type === 'board' && <BoardMeetingSession {...props} /> }
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// MEETING HISTORY
+// ─────────────────────────────────────────────────────────────────
+const MeetingHistory = ({ setPage, setInitialMeetingId }) => {
+  const { token } = useAuth();
+  const [meetings, setMeetings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('all');
+
+  const load = () => API.get('/api/meetings', token).then(setMeetings).catch(console.error).finally(() => setLoading(false));
+  useEffect(() => { load(); }, []);
+
+  const deleteM = async (id, e) => {
+    e.stopPropagation();
+    if (!confirm('Delete this meeting? This cannot be undone.')) return;
+    await API.delete(`/api/meetings/${id}`, token);
+    load();
+  };
+
+  const filtered = filter === 'all' ? meetings : meetings.filter(m => m.type === filter);
+
+  return (
+    <div style={{ maxWidth: 800 }}>
+      <div style={{ marginBottom: 24 }}>
+        <div className="font-serif" style={{ fontSize: 24, color: '#f1f5f9', marginBottom: 6 }}>Meeting History</div>
+        <div style={{ color: '#64748b', fontSize: 14 }}>{meetings.length} meetings on record.</div>
+      </div>
+
+      {/* Filter */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+        {[['all', 'All'], ['1on1', '1-on-1'], ['document', 'Document Review'], ['board', 'Board Meeting']].map(([val, label]) => (
+          <button key={val} onClick={() => setFilter(val)} style={{ padding: '6px 14px', borderRadius: 20, fontSize: 13, cursor: 'pointer', border: '1px solid', borderColor: filter === val ? '#c4a93a' : 'rgba(255,255,255,0.15)', background: filter === val ? 'rgba(196,169,58,0.15)' : 'transparent', color: filter === val ? '#c4a93a' : '#94a3b8', transition: 'all 0.2s' }}>
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {loading && <div style={{ textAlign: 'center', padding: 40 }}><Spinner /></div>}
+
+      {!loading && filtered.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '60px 20px', color: '#4b5563' }}>
+          <div style={{ fontSize: 32, marginBottom: 16 }}>📋</div>
+          <div style={{ fontSize: 15, color: '#64748b' }}>No meetings yet. Start your first meeting.</div>
+          <button className="btn-primary" style={{ marginTop: 16 }} onClick={() => setPage('new-meeting')}>+ New Meeting</button>
+        </div>
+      )}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {filtered.map(m => (
+          <div key={m.id} className="card card-hover" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 16, cursor: 'pointer' }}
+            onClick={() => { setInitialMeetingId(m.id); setPage('meeting'); }}>
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: `${meetingTypeColor(m.type)}22`, border: `1px solid ${meetingTypeColor(m.type)}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>
+              { { '1on1': '👤', 'document': '📄', 'board': '🏛️' }[m.type] }
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 14, fontWeight: 500, color: '#e2e8f0', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.title}</div>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 11, color: meetingTypeColor(m.type), background: `${meetingTypeColor(m.type)}22`, padding: '2px 8px', borderRadius: 20 }}>{meetingTypeLabel(m.type)}</span>
+                <span style={{ fontSize: 12, color: '#4b5563' }}>{m.message_count} messages</span>
+                {m.board_members?.length > 0 && m.board_members.map(k => <span key={k} style={{ fontSize: 14 }}>{MEM@ER_DEFAULTS[k]?.avatar}</span>)}
+              </div>
+            </div>
+            <div style={{ textAlign: 'right', flexShrink: 0 }}>
+              <div style={{ fontSize: 12, color: '#4b5563' }}>{fmtDate(m.updated_at)}</div>
+              <button className="btn-danger" style={{ marginTop: 6, padding: '4px 10px', fontSize: 12 }} onClick={e => deleteM(m.id, e)}>Delete</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// BOARD MEMORY PANEL
+// ─────────────────────────────────────────────────────────────────
+const BoardMemoryPanel = ({ members }) => {
+  const { token } = useAuth();
+  const { showToast, ToastEl } = useToast();
+  const [memories, setMemories] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState(null);
+  const [editContent, setEditContent] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [foundationMemory, setFoundationMemory] = useState({});
+  const [showFoundation, setShowFoundation] = useState({});
+
+  const load = () => API.get('/api/memory', token).then(setMemories).catch(console.error).finally(() => setLoading(false));
+  useEffect(() => { load(); }, []);
+
+  const startEdit = (key) => {
+    setEditing(key);
+    setEditContent(memories[key]?.content || '');
+  };
+
+  const saveEdit = async () => {
+    setSaving(true);
+    try {
+      await API.put(`/api/memory/${editing}`, { content: editContent }, token);
+      showToast('Memory saved.');
+    } catch (e) { showToast('Failed to save memory.', 'error'); }
+    setSaving(false);
+    setEditing(null);
+    load();
+  };
+
+  const clearMemory = async (key) => {
+    const name = members?.find(m => m.key === key)?.name || MEMBER_DEFAULTS[key]?.name || key;
+    if (!confirm(`Clear ${name}'s session memory? Foundation EEARTH knowledge is always retained.`)) return;
+    await API.delete(`/api/memory/${key}`, token);
+    showToast(`${name}'s session memory cleared.`);
+    load();
+  };
+
+  const toggleFoundation = async (key) => {
+    if (showFoundation[key]) {
+      setShowFoundation(prev => ({ ...prev, [key]: false }));
+      return;
+    }
+    if (!foundationMemory[key]) {
+      try {
+        const data = await API.get(`/api/foundation-memory/${key}`, token);
+        setFoundationMemory(prev => ({ ...prev, [key]: data.content }));
+      } catch (e) { console.error(e); }
+    }
+    setShowFoundation(prev => ({ ...prev, [key]: true }));
+  };
+
+  return (
+    <div style={{ maxWidth: 900 }}>
+      {ToastEl}
+      <div style={{ marginBottom: 24 }}>
+        <div className="font-serif" style={{ fontSize: 24, color: '#f1f5f9', marginBottom: 6 }}>Board Member Memory</div>
+        <div style={{ color: '#64748b', fontSize: 14 }}>Each board member maintains a persistent memory of past meetings and context. Memory is per-user and can be viewed, edited, or cleared.</div>
+      </div>
+
+      {/* Foundation memory info banner */}
+      <div style={{ background: 'linear-gradient(135deg, #1a2744 0%, #0f2030 100%)', border: '1px solid #c4a93a40', borderRadius: 12, padding: '16px 20px', marginBottom: 24, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+        <span style={{ fontSize: 22 }}>🧠</span>
+        <div>
+          <div style={{ fontWeight: 600, color: '#c4a93a', fontSize: 14, marginBottom: 4 }}>Foundation EEARTH Knowledge — Always Active</div>
+          <div style={{ color: '#94a3b8', fontSize: 13, lineHeight: 1.6 }}>
+            All board members have permanent, comprehensive knowledge of EEARTH's financials, technology, team, partnerships, capital structure, and competitive positioning — loaded automatically from the EEARTH Foundation document. This cannot be toggled off. Use <strong style={{ color: '#e2e8f0' }}>Session Memory</strong> below to add meeting-specific context on top of this foundation.
+          </div>
+        </div>
+      </div>
+
+      {loading && <div style={{ textAlign: 'center', padding: 40 }}><Spinner /></div>}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {members.map(m => {
+          const mem = memories[m.key];
+          const isEditing = editing === m.key;
+          const showFnd = showFoundation[m.key];
+          return (
+            <div key={m.key} className="card" style={{ padding: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+                <span style={{ fontSize: 28 }}>{m.avatar}</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 600, fontSize: 15, color: '#f1f5f9' }}>{m.name}</div>
+                  <div style={{ fontSize: 12, color: '#4b5563', marginTop: 2 }}>
+                    {mem ? `Session memory updated: ${fmtDate(mem.updated_at)} · ${mem.content?.length || 0} chars` : 'No session memory yet · Foundation knowledge active'}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 8, flewWrap: 'wrap', justifyContent: 'flex-end' }}>
+                  <button className="btn-ghost" style={{ padding: '6px 12px', fontSize: 11, borderColor: '#c4a93a40', color: '#c4a93a' }} onClick={() => toggleFoundation(m.key)}>
+                    {showFnd ? '📖 Hide Foundation' : '📖 View Foundation'}
+                  </button>
+                  <button className="btn-ghost" style={{ padding: '6px 14px', fontSize: 12 }} onClick={() => startEdit(m.key)}>✏️ Edit Session</button>
+                  {mem && <button className="btn-danger" style={{ padding: '6px 14px', fontSize: 12 }} onClick={() => clearMemory(m.key)}>🗑️ Clear Session</button>}
+                </div>
+              </div>
+
+              {/* Foundation memory viewer */}
+              {showFnd && (
+                <div style={{ marginBottom: 14 }}>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: '#c4a93a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>Foundation Knowledge (Always Active)</div>
+                  <div style={{ background: '#0a1020', borderRadius: 8, padding: '14px', fontSize: 12, color: '#64748b', lineHeight: 1.7, whiteSpace: 'pre-wrap', maxHeight: 300, overflowY: 'auto', borderLeft: `3px solid #c4a93a` }}>
+                    {foundationMemory[m.key] || 'Loading...'}
+                  </div>
+                </div>
+              )}
+
+              {/* Session memory */}
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>Session Memory (Meeting-Specific)</div>
+                {isEditing ? (
+                  <div>
+                    <textarea className="input" value={editContent} onChange={e => setEditContent(e.target.value)} rows={8} style={{ marginBottom: 10, resize: 'vertical', fontFamily: 'monospace', fontSize: 13 }} placeholder={`Add session-specific context for ${m.name} — topics discussed, positions taken, open questions, etc.`} />
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <button className="btn-primary" onClick={saveEdit} disabled={saving}>{saving ? <Spinner size={14} /> : 'Save'}</button>
+                      <button className="btn-ghost" onClick={() => setEditing(null)}>Cancel</button>
+                    </div>
+                  </div>
+                ) : mem ? (
+                  <div style={{ background: '#0f1729', borderRadius: 8, padding: '14px', fontSize: 13, color: '#94a3b8', lineHeight: 1.7, whiteSpace: 'pre-wrap', maxHeight: 200, overflowY: 'auto', borderLeft: `3px solid ${m.color}` }}>
+                    {mem.content}
+                  </div>
+                ) : (
+                  <div style={{ fontSize: 13, color: '#374151', fontStyle: 'italic', padding: '12px', background: '#0f1729', borderRadius: 8 }}>
+                    No session memory yet. Use <strong style={{ color: '#c4a93a' }}>Update Memory</strong> after each board meeting, or click <strong style={{ color: '#c4a93a' }}>Edit Session</strong> to add manual notes.
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// ADMIN PANEL
+// ─────────────────────────────────────────────────────────────────
+const AdminPanel = () => {
+  const { token } = useAuth();
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [modal, setModal] = useState(null);
+  const [form, setForm] = useState({ email: '', name: '', password: '', role: 'user' });
+  const [editForm, setEditForm] = useState({});
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+
+  const load = () => API.get('/api/users', token).then(setUsers).catch(console.error).finally(() => setLoading(false));
+  useEffect(() => { load(); }, []);
+
+  const createUser = async () => {
+    if (!form.email || !form.name || !form.password) { setError('All fields required'); return; }
+    setSaving(true); setError('');
+    try {
+      await API.post('/api/users', form, token);
+      setModal(null); setForm({ email: '', name: '', password: '', role: 'user' }); load();
+    } catch (e) { setError(e.message); } finally { setSaving(false); }
+  };
+
+  const updateUser = async (id) => {
+    setSaving(true); setError('');
+    try {
+      const data = { ...editForm };
+      if (!data.password) delete data.password; // don't send empty password
+      await API.patch(`/api/users/${id}`, data, token);
+      setModal(null); load();
+    } catch (e) { setError(e.message); } finally { setSaving(false); }
+  };
+
+  const toggleActive = async (user) => {
+    await API.patch(`/api/users/${user.id}`, { is_active: !user.is_active }, token);
+    load();
+  };
+
+  const deleteUser = async (id) => {
+    if (!confirm('Delete this user? All their meeting history will be lost.')) return;
+    await API.delete(`/api/users/${id}`, token);
+    load();
+  };
+
+  return (
+    <div style={{ maxWidth: 800 }}>
+      <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>
+          <div className="font-serif" style={{ fontSize: 24, color: '#f1f5f9', marginBottom: 4 }}>Admin Panel</div>
+          <div style={{ color: '#64748b', fontSize: 14 }}>Manage user accounts and access.</div>
+        </div>
+        <button className="btn-primary" onClick={() => { setModal('create'); setError(''); }}>+ New User</button>
+      </div>
+
+      {loading && <div style={{ textAlign: 'center', padding: 40 }}><Spinner /></div>}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {users.map(u => (
+          <div key={u.id} className="card" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(196,169,58,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, color: '#c4a93a', fontSize: 16 }}>
+              {u.name?.[0]?.toUpperCase()}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 500, color: '#e2e8f0' }}>{u.name}</div>
+              <div style={{ fontSize: 12, color: '#4b5563', marginTop: 2 }}>{u.email}</div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span className="badge" style={{ background: u.role === 'admin' ? 'rgba(196,169,58,0.2)' : 'rgba(255,255,255,0.08)', color: u.role === 'admin' ? '#c4a93a' : '#94a3b8' }}>{u.role}</span>
+              <span className="badge" style={{ background: u.is_active ? 'rgba(39,174,96,0.2)' : 'rgba(127,29,29,0.4)', color: u.is_active ? '#27ae60' : '#fca5a5' }}>{u.is_active ? 'Active' : 'Inactive'}</span>
+              <button className="btn-ghost" style={{ padding: '6px 12px', fontSize: 12 }} onClick={() => { setEditForm({ name: u.name, email: u.email, role: u.role, is_active: u.is_active, password: '' }); setModal({ type: 'edit', user: u }); setError(''); }}>Edit</button>
+              <button className="btn-ghost" style={{ padding: '6px 12px', fontSize: 12, borderColor: u.is_active ? '#991b1b' : 'rgba(255,255,255,0.2)', color: u.is_active ? '#fca5a5' : '#94a3b8' }} onClick={() => toggleActive(u)}>{u.is_active ? 'Deactivate' : 'Activate'}</button>
+              <button className="btn-danger" style={{ padding: '6px 10px', fontSize: 12 }} onClick={() => deleteUser(u.id)}>🗑️</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Create User Modal */}
+      {modal === 'create' && (
+        <div className="modal-bg" onClick={() => setModal(null)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <h3 style={{ fontSize: 18, fontWeight: 600, color: '#f1f5f9', marginBottom: 20 }}>Create New User</h3>
+            {error && <div style={{ background: '#7f1d1d33', border: '1px solid #991b1b', borderRadius: 8, padding: '8px 12px', marginBottom: 14, color: '#fca5a5', fontSize: 13 }}>{error}</div>}
+            {[['Name', 'name', 'text', 'Full Name'], ['Email', 'email', 'email', 'user@email.com'], ['Password', 'password', 'password', '••••••••']].map(([label, key, type, ph]) => (
+              <div key={key} style={{ marginBottom: 14 }}>
+                <label style={{ fontSize: 13, color: '#94a3b8', display: 'block', marginBottom: 6 }}>{label}</label>
+                <input className="input" type={type} value={form[key]} onChange={e => setForm({...form, [key]: e.target.value})} placeholder={ph} />
+              </div>
+            ))}
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontSize: 13, color: '#94a3b8', display: 'block', marginBottom: 6 }}>Role</label>
+              <select className="input" value={form.role} onChange={e => setForm({...form, role: e.target.value})}>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button className="btn-primary" onClick={createUser} disabled={saving}>{saving ? <Spinner size={14} /> : 'Create User'}</button>
+              <button className="btn-ghost" onClick={() => setModal(null)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit User Modal */}
+      {modal?.type === 'edit' && (
+        <div className="modal-bg" onClick={() => setModal(null)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <h3 style={{ fontSize: 18, fontWeight: 600, color: '#f1f5f9', marginBottom: 20 }}>Edit User: {modal.user.name}</h3>
+            {error && <div style={{ background: '#7f1d1d33', border: '1px solid #991b1b', borderRadius: 8, padding: '8px 12px', marginBottom: 14, color: '#fca5a5', fontSize: 13 }}>{error}</div>}
+            {[['Name', 'name', 'text'], ['Email', 'email', 'email'], ['New Password (leave blank to keep)', 'password', 'password']].map(([label, key, type]) => (
+              <div key={key} style={{ marginBottom: 14 }}>
+                <label style={{ fontSize: 13, color: '#94a3b8', display: 'block', marginBottom: 6 }}>{label}</label>
+                <input className="input" type={type} value={editForm[key] || ''} onChange={e => setEditForm({...editForm, [key]: e.target.value})} placeholder={key === 'password' ? 'Leave blank to keep current' : ''} />
+              </div>
+            ))}
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontSize: 13, color: '#94a3b8', display: 'block', marginBottom: 6 }}>Role</label>
+              <select className="input" value={editForm.role || 'user'} onChange={e => setEditForm({...editForm, role: e.target.value})}>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button className="btn-primary" onClick={() => updateUser(modal.user.id)} disabled={saving}>{saving ? <Spinner size={14} /> : 'Save Changes'}</button>
+              <button className="btn-ghost" onClick={() => setModal(null)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────
+// MAIN APP
+// ─────────────────────────────────────────────────────────────────
+const App = () => {
+  const [token, setToken] = useState(() => localStorage.getItem('eearth_token'));
+  const [user, setUser] = useState(() => { try { return JSON.parse(localStorage.getItem('eearth_user')); } catch { return null; } });
+  const [page, setPage] = useState('dashboard');
+  const [initialMeetingId, setInitialMeetingId] = useState(null);
+  const [members, setMembers] = useState(Object.entries(MEMBER_DEFAULTS).map(([key, v]) => ({ key, ...v })));
+
+  useEffect(() => {
+    if (token) {
+      // Verify token is still valid; if not, log out silently
+      API.get('/api/auth/me', token).then(u => {
+        API.get('/api/board-members', token).then(setMembers).catch(() => {});
+      }).catch(() => {
+        // Token expired or invalid — clear and show login
+        localStorage.removeItem('eearth_token');
+        localStorage.removeItem('eearth_user');
+        setToken(null); setUser(null);
+      });
+    }
+  }, [token]);
+
+  const handleLogin = (tok, usr) => { setToken(tok); setUser(usr); setPage('dashboard'); };
+  const handleLogout = () => { localStorage.removeItem('eearth_token'); localStorage.removeItem('eearth_user'); setToken(null); setUser(null); setPage('dashboard'); };
+
+  if (!token || !user) return (
+    <AuthContext.Provider value={{ token: null, user: null }}>
+      <LoginPage onLogin={handleLogin} />
+    </AuthContext.Provider>
+  );
+
+  const setPageWithReset = (p) => { if (p !== 'meeting') setInitialMeetingId(null); setPage(p); };
+
+  return (
+    <AuthContext.Provider value={{ token, user }}>
+      <div style={{ display: 'flex', minHeight: '100vh' }}>
+        <Sidebar page={page} setPage={setPageWithReset} user={user} onLogout={handleLogout} />
+        <div style={{ marginLeft: 220, flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          {page === 'meeting' ? (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, height: '100vh' }}>
+              <MeetingView meetingId={initialMeetingId} setPage={setPageWithReset} members={members} />
+            </div>
+          ) : (
+            <div style={{ flex: 1, padding: '32px 36px', overflowY: 'auto' }}>
+              {page === 'dashboard' && <Dashboard setPage={setPageWithReset} setInitialMeetingId={setInitialMeetingId} members={members} />}
+              {page === 'new-meeting' && <NewMeeting setPage={setPageWithReset} setInitialMeetingId={setInitialMeetingId} members={members} />}
+              {page === 'history' && <MeetingHistory setPage={setPageWithReset} setInitialMeetingId={setInitialMeetingId} />}
+              {page === 'memory' && <BoardMemoryPanel members={members} />}
+              {page === 'admin' && user?.role === 'admin' && <AdminPanel />}
+            </div>
+          )}
+        </div>
+      </div>
+    </AuthContext.Provider>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
