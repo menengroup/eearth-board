@@ -7,7 +7,7 @@ services:
     pythonVersion: "3.11.0"
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /api/auth/me
+        healthCheckPath: /api/health
     envVars:
       - key: ANTHROPIC_API_KEY
         sync: false   # Set manually in Render dashboard
